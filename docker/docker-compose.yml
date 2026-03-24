@@ -1,0 +1,53 @@
+# ============================================================
+# Quantum RAG Assistant — Docker Compose
+# Runs the full stack: FastAPI + Streamlit
+# ============================================================
+
+version: "3.9"
+
+services:
+  # ── FastAPI Backend ──────────────────────────────────────
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: quantum-rag-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    volumes:
+      - ../data:/app/data       # Persist vector index & processed data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - quantum-net
+
+  # ── Streamlit Frontend ───────────────────────────────────
+  ui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.streamlit
+    container_name: quantum-rag-ui
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE=http://api:8000/api/v1
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - quantum-net
+
+networks:
+  quantum-net:
+    driver: bridge
+
+volumes:
+  quantum-data:
