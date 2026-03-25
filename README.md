@@ -7,7 +7,6 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.32+-red?logo=streamlit)
 ![FAISS](https://img.shields.io/badge/FAISS-Vector_DB-orange)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)
-![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
 
