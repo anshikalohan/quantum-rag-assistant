@@ -18,27 +18,25 @@ Built for learners, researchers, and developers who want a transparent, explaina
 
 ---
 
-## Architecture
+### Component Architecture
+> Internal modular structure of the system
 
-```
-User Query
-    │
-    ▼
-[Streamlit UI / FastAPI]
-    │
-    ▼
-[Query Encoder] ──► FAISS Vector Index
-    │                      │
-    │              Top-K Chunks Retrieved
-    │                      │
-    └──────────────────────┘
-                   │
-                   ▼
-        [Groq LLM — llama-3.3-70b-versatile]
-                   │
-                   ▼
-        Grounded Answer + Source Citations
-```
+![Components](docs/architecture/components_diagram.png)
+
+---
+
+### Deployment Architecture
+> Containerized system using Docker
+
+![Deployment](docs/architecture/deployment_architecture.png)
+
+---
+
+### Sequence Diagram
+> Step-by-step interaction from query to response
+
+![Sequence](docs/architecture/sequence_diagram.png)
+
 
 ---
 
