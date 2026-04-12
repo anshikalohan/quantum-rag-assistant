@@ -32,9 +32,19 @@ if not is_port_in_use(8000):
     env = os.environ.copy()
     try:
         import streamlit as st
-        # Inject GROQ API KEY if we can find it in Streamlit Cloud Secrets
+        
+        print("====== SECRET DIAGNOSTICS ======")
+        print("Available Streamlit secrets:", list(st.secrets.keys()))
+        print("================================")
+        
+        # Check explicit formats
         if "GROQ_API_KEY" in st.secrets:
             env["GROQ_API_KEY"] = str(st.secrets["GROQ_API_KEY"])
+            print("Successfully injected GROQ_API_KEY from st.secrets!")
+        elif "groq_api_key" in st.secrets:
+            env["GROQ_API_KEY"] = str(st.secrets["groq_api_key"])
+            print("Successfully injected groq_api_key from st.secrets!")
+            
     except Exception as e:
         print(f"Secret injection warning: {e}")
 
