@@ -27,7 +27,21 @@ def is_port_in_use(port):
 
 if not is_port_in_use(8000):
     print("starting uvicorn backend...")
-    subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--port", "8000"])
+    
+    # Safely inject Streamlit Secrets into the background FastApi process!
+    env = os.environ.copy()
+    try:
+        import streamlit as st
+        # Inject GROQ API KEY if we can find it in Streamlit Cloud Secrets
+        if "GROQ_API_KEY" in st.secrets:
+            env["GROQ_API_KEY"] = str(st.secrets["GROQ_API_KEY"])
+    except Exception as e:
+        print(f"Secret injection warning: {e}")
+
+    subprocess.Popen(
+        [sys.executable, "-m", "uvicorn", "app.main:app", "--port", "8000"], 
+        env=env
+    )
     time.sleep(2)  # Give the server a moment to spin up
 
 API_BASE = "http://localhost:8000/api/v1"
