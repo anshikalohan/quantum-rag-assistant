@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     # --- LLM ---
     llm_provider: Literal["groq"] = "groq"
     groq_api_key: str = Field(default="", alias="GROQ_API_KEY")
-    llm_model: str = "llama3-70b-8192"
+    llm_model: str = "llama-3.3-70b-versatile"
     max_tokens: int = 1024
     temperature: float = 0.1
 
