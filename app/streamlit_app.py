@@ -16,6 +16,20 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# ─── Service Startup (Streamlit Cloud Hack) ──────────────────────────────────
+import socket
+import subprocess
+import sys
+
+def is_port_in_use(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
+
+if not is_port_in_use(8000):
+    print("starting uvicorn backend...")
+    subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--port", "8000"])
+    time.sleep(2)  # Give the server a moment to spin up
+
 API_BASE = "http://localhost:8000/api/v1"
 
 # ─── Custom CSS ─────────────────────────────────────────────────────────────
