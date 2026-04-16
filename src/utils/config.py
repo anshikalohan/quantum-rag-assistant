@@ -49,6 +49,15 @@ class Settings(BaseSettings):
     # --- Streamlit ---
     streamlit_port: int = 8501
 
+    @field_validator("llm_model", mode="before")
+    @classmethod
+    def map_deprecated_models(cls, v: str) -> str:
+        if v == "llama3-70b-8192":
+            return "llama-3.3-70b-versatile"
+        if v == "llama3-8b-8192":
+            return "llama-3.1-8b-instant"
+        return v
+
     @field_validator("data_raw_dir", "data_processed_dir", "embeddings_dir", mode="before")
     @classmethod
     def ensure_path(cls, v: str) -> Path:
