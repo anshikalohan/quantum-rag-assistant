@@ -196,7 +196,7 @@ if user_input:
                         "top_k": top_k,
                         "threshold": threshold,
                     },
-                    timeout=30,
+                    timeout=120,
                 )
 
                 if response.status_code == 200:
