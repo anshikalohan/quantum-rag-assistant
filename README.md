@@ -108,7 +108,7 @@ quantum-rag-assistant/
 ### 1. Clone & Setup
 
 ```bash
-git clone https://github.com/yourusername/quantum-rag-assistant.git
+git clone https://github.com/anshikalohan/quantum-rag-assistant.git
 cd quantum-rag-assistant
 
 python -m venv venv
